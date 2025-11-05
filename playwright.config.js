@@ -30,11 +30,21 @@ export default defineConfig({
     // },
   ],
 
-  // Run backend server before tests
-  webServer: {
-    command: 'npm start',
-    url: 'http://localhost:3000/api/health',
-    reuseExistingServer: !process.env.CI,
-    timeout: 10000,
-  },
+  // Run frontend static server AND backend server before tests
+  webServer: [
+    {
+      // Serve the frontend statically on port 5500 (CI replacement for Live Server)
+      command: 'npx http-server -p 5500 -a 127.0.0.1 -c-1 .',
+      url: 'http://127.0.0.1:5500/index.html',
+      reuseExistingServer: !process.env.CI,
+      timeout: 30000,
+    },
+    {
+      // Start backend and wait for health endpoint
+      command: 'npm start',
+      url: 'http://localhost:3000/api/health',
+      reuseExistingServer: !process.env.CI,
+      timeout: 10000,
+    }
+  ],
 });
