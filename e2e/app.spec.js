@@ -198,7 +198,8 @@ test.describe('Task Management', () => {
     await expect(page.locator('#taskList li .task-name')).toContainText('Test Task');
     // Description is in a textarea, check it separately
     await expect(page.locator('#taskList li textarea.desc')).toHaveValue('This is a test task description');
-    await expect(page.locator('#taskList li .priority-high')).toBeVisible();
+    // Priority class is in German: 'priority-hoch' not 'priority-high'
+    await expect(page.locator('#taskList li .priority-hoch')).toBeVisible();
   });
 
   test('should mark task as done', async ({ page }) => {
