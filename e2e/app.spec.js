@@ -194,9 +194,10 @@ test.describe('Task Management', () => {
     // Submit
     await page.click('button[type="submit"]:has-text("Hinzufügen")');
     
-    // Task should appear in list
-    await expect(page.locator('#taskList li')).toContainText('Test Task');
-    await expect(page.locator('#taskList li')).toContainText('This is a test task description');
+    // Task should appear in list - check title separately
+    await expect(page.locator('#taskList li .task-name')).toContainText('Test Task');
+    // Description is in a textarea, check it separately
+    await expect(page.locator('#taskList li textarea.desc')).toHaveValue('This is a test task description');
     await expect(page.locator('#taskList li .priority-high')).toBeVisible();
   });
 
