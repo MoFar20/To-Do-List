@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>To-Do Liste</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top-header">
+    <h1 class="site-title">📝 To-Do Liste</h1>
+    <div class="header-buttons">
+      <button id="userInfoBtn" class="header-btn" style="display:none;">� Benutzer</button>
+      <button id="logoutBtn" class="header-btn" style="display:none;">🚪 Abmelden</button>
+      <button id="accessibilityBtn" class="header-btn">♿ Zugänglichkeit</button>
+    </div>
+  </header>
+
+  <!-- Accessibility Mode Selector Modal -->
+  <div id="accessibilityModal" class="modal">
+    <div class="modal-content">
+      <h3>♿ Zugänglichkeitsmodus wählen</h3>
+      <div class="accessibility-options">
+        <button class="accessibility-option" data-mode="default">
+          <span class="option-icon">🎨</span>
+          <span class="option-name">Standard</span>
+        </button>
+        <button class="accessibility-option" data-mode="dark">
+          <span class="option-icon">🌙</span>
+          <span class="option-name">Dunkelmodus</span>
+        </button>
+        <button class="accessibility-option" data-mode="high-contrast">
+          <span class="option-icon">⚫</span>
+          <span class="option-name">Hoher Kontrast</span>
+        </button>
+        <button class="accessibility-option" data-mode="protanopia">
+          <span class="option-icon">🔴</span>
+          <span class="option-name">Rot-Grün Blindheit</span>
+        </button>
+        <button class="accessibility-option" data-mode="deuteranopia">
+          <span class="option-icon">🟢</span>
+          <span class="option-name">Grün Blindheit</span>
+        </button>
+        <button class="accessibility-option" data-mode="tritanopia">
+          <span class="option-icon">🔵</span>
+          <span class="option-name">Blau-Gelb Blindheit</span>
+        </button>
+      </div>
+      <div class="modal-actions">
+        <button id="accessibilityCancel" class="btn-primary">Schließen</button>
+      </div>
+    </div>
+  </div>
+
+  
+
+  <div class="wrapper">
+    <!-- Aufgaben Panel -->
+    <div class="panel">
+      <h2>🎯 Aufgaben</h2>
+      <div class="panel-actions">
+        <button id="exportPdfBtn" class="btn-secondary">⬇️ Aufgaben als PDF</button>
+      </div>
+      <form id="todoForm">
+        <input type="text" id="taskTitle" placeholder="Aufgabentitel" required>
+        <textarea id="taskDesc" placeholder="Beschreibung"></textarea>
+        <select id="taskPriority">
+          <option value="Hoch">🔴 Hoch</option>
+          <option value="Mittel" selected>🟡 Mittel</option>
+          <option value="Niedrig">🟢 Niedrig</option>
+        </select>
+        <select id="taskCategory">
+          <option value="">📂 Kategorie auswählen </option>
+        </select>
+        <button type="submit" class="btn-primary">➕ Aufgabe hinzufügen</button>
+      </form>
+        <!-- Filter Section -->
+        <div class="filter-section">
+          <input type="text" id="titleFilter" placeholder="🔍 Nach Titel suchen" class="filter-input">
+          <select id="priorityFilter" class="filter-input">
+            <option value="">🎯 Alle Prioritäten</option>
+            <option value="Hoch">🔴 Hoch</option>
+            <option value="Mittel">🟡 Mittel</option>
+            <option value="Niedrig">🟢 Niedrig</option>
+          </select>
+          <select id="categoryFilter" class="filter-input">
+            <option value="">📂 Alle Kategorien</option>
+          </select>
+        </div>
+        <ul id="taskList"></ul>
+    </div>
+
+    <!-- Kategorien Panel -->
+    <div class="panel">
+      <h2>📂 Kategorien</h2>
+      <form id="categoryForm">
+        <input type="text" id="categoryName" placeholder="Kategoriename" required>
+        <button type="submit" class="btn-success">📁 Kategorie anlegen</button>
+      </form>
+      <ul id="categoryList"></ul>
+    </div>
+  </div>
+
+  <!-- Custom Modal -->
+  <div id="confirmModal" class="modal">
+    <div class="modal-content">
+      <h3 id="modalTitle">Löschen bestätigen</h3>
+      <p id="modalMessage">Möchtest du dieses Element wirklich löschen?</p>
+      <div class="modal-actions">
+        <button id="modalConfirm" class="btn-danger">Ja, löschen</button>
+        <button id="modalCancel" class="btn-primary">Abbrechen</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Info Modal -->
+  <div id="userInfoModal" class="modal">
+    <div class="modal-content">
+      <h3>👤 Benutzerinformationen</h3>
+      <div class="user-info-content">
+        <p><strong>Name:</strong> <span id="userInfoName">-</span></p>
+        <p><strong>E-Mail:</strong> <span id="userInfoEmail">-</span></p>
+        <p><strong>Registriert seit:</strong> <span id="userInfoDate">-</span></p>
+        <p><strong>Aufgaben erstellt:</strong> <span id="userInfoTasks">0</span></p>
+        <p><strong>Kategorien:</strong> <span id="userInfoCategories">0</span></p>
+      </div>
+      <div class="modal-actions">
+        <button id="userInfoClose" class="btn-primary">Schließen</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <span class="footer-brand">📝 To-Do Liste</span>
+      </div>
+      <div class="footer-center">
+        <span class="footer-copy">©<span id="year"></span> ClearFocus Solutions | Privacy Policy | Impressum | Kontakt</span>
+      </div>
+      <nav class="footer-links" aria-label="Fußzeilenlinks">
+        <a href="#" id="openAccessibility">Zugänglichkeit</a>
+        <a href="#" id="scrollTop">Nach oben ↑</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Libraries: Sortable for drag-and-drop, jsPDF for export -->
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Anmelden | Registrieren</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top-header">
+    <h1 class="site-title">📝 To-Do Liste</h1>
+    <div class="header-buttons">
+      <button id="accessibilityBtn" class="header-btn">♿ Zugänglichkeit</button>
+    </div>
+  </header>
+
+  <!-- Accessibility Mode Selector Modal -->
+  <div id="accessibilityModal" class="modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-labelledby="accTitle">
+      <h3 id="accTitle">♿ Zugänglichkeitsmodus wählen</h3>
+      <div class="accessibility-options">
+        <button class="accessibility-option" data-mode="default"><span class="option-icon">🎨</span><span class="option-name">Standard</span></button>
+        <button class="accessibility-option" data-mode="dark"><span class="option-icon">🌙</span><span class="option-name">Dunkelmodus</span></button>
+        <button class="accessibility-option" data-mode="high-contrast"><span class="option-icon">⚫</span><span class="option-name">Hoher Kontrast</span></button>
+        <button class="accessibility-option" data-mode="protanopia"><span class="option-icon">🔴</span><span class="option-name">Rot-Grün Blindheit</span></button>
+        <button class="accessibility-option" data-mode="deuteranopia"><span class="option-icon">🟢</span><span class="option-name">Grün Blindheit</span></button>
+        <button class="accessibility-option" data-mode="tritanopia"><span class="option-icon">🔵</span><span class="option-name">Blau-Gelb Blindheit</span></button>
+      </div>
+      <div class="modal-actions">
+        <button id="accessibilityCancel" class="btn-primary">Schließen</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="auth-container" role="main">
+    <div class="panel auth-card">
+      <div class="auth-tabs" role="tablist">
+        <button id="tab-login" class="auth-tab active" role="tab" aria-controls="panel-login" aria-selected="true">Anmelden</button>
+        <button id="tab-register" class="auth-tab" role="tab" aria-controls="panel-register" aria-selected="false">Registrieren</button>
+      </div>
+
+      <!-- Login Panel -->
+      <section id="panel-login" class="auth-panel" role="tabpanel" aria-labelledby="tab-login">
+        <form id="loginForm" novalidate>
+          <input type="email" id="loginEmail" placeholder="E-Mail" required aria-label="E-Mail">
+          <div class="password-wrapper">
+            <input type="password" id="loginPassword" placeholder="Passwort" required aria-label="Passwort">
+            <button type="button" class="toggle-password" aria-label="Passwort anzeigen/verbergen">👁️</button>
+          </div>
+          <button type="submit" class="btn-primary">🔓 Anmelden</button>
+          <button type="button" id="forgotPasswordBtn" class="btn-link">Passwort vergessen?</button>
+        </form>
+        <p class="auth-error" id="loginError" aria-live="polite"></p>
+      </section>
+
+      <!-- Register Panel -->
+      <section id="panel-register" class="auth-panel hidden" role="tabpanel" aria-labelledby="tab-register">
+        <form id="registerForm" novalidate>
+          <input type="text" id="regName" placeholder="Name" required aria-label="Name">
+          <input type="email" id="regEmail" placeholder="E-Mail" required aria-label="E-Mail">
+          <div class="password-wrapper">
+            <input type="password" id="regPassword" placeholder="Passwort (min. 8, Groß/Klein, Zahl, Sonderzeichen)" required aria-label="Passwort">
+            <button type="button" class="toggle-password" aria-label="Passwort anzeigen/verbergen">👁️</button>
+          </div>
+          <button type="submit" class="btn-success">📝 Registrieren</button>
+        </form>
+        <p class="auth-error" id="registerError" aria-live="polite"></p>
+      </section>
+
+      <!-- Forgot Password Panel -->
+      <section id="panel-forgot" class="auth-panel hidden" role="tabpanel">
+        <h3>Passwort zurücksetzen</h3>
+        <form id="forgotForm" novalidate>
+          <input type="email" id="forgotEmail" placeholder="E-Mail" required aria-label="E-Mail">
+          <button type="submit" class="btn-primary">🔑 Zurücksetzen</button>
+          <button type="button" id="backToLoginBtn" class="btn-link">Zurück zur Anmeldung</button>
+        </form>
+        <p class="auth-error" id="forgotError" aria-live="polite"></p>
+        <p class="auth-success" id="forgotSuccess" aria-live="polite"></p>
+      </section>
+
+      <!-- Reset Password Panel -->
+      <section id="panel-reset" class="auth-panel hidden" role="tabpanel">
+        <h3>Neues Passwort eingeben</h3>
+        <form id="resetForm" novalidate>
+          <div class="password-wrapper">
+            <input type="password" id="resetPassword" placeholder="Neues Passwort" required aria-label="Neues Passwort">
+            <button type="button" class="toggle-password" aria-label="Passwort anzeigen/verbergen">👁️</button>
+          </div>
+          <div class="password-wrapper">
+            <input type="password" id="resetPasswordConfirm" placeholder="Passwort bestätigen" required aria-label="Passwort bestätigen">
+            <button type="button" class="toggle-password" aria-label="Passwort anzeigen/verbergen">👁️</button>
+          </div>
+          <button type="submit" class="btn-success">💾 Passwort speichern</button>
+        </form>
+        <p class="auth-error" id="resetError" aria-live="polite"></p>
+      </section>
+    </div>
+  </main>
+
+  <!-- Code Entry Modal -->
+  <div id="codeModal" class="modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-labelledby="codeTitle">
+      <h3 id="codeTitle">Bestätigungscode eingeben</h3>
+      <p>Wir haben dir einen 6-stelligen Code gesendet.</p>
+      <input type="text" id="verificationCodeInput" placeholder="z. B. 123456" inputmode="numeric" aria-label="Bestätigungscode">
+      <p class="auth-error" id="codeError" aria-live="polite"></p>
+      <div class="modal-actions">
+        <button id="codeConfirm" class="btn-primary">Bestätigen</button>
+        <button id="codeCancel" class="btn-secondary">Abbrechen</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info Modal -->
+  <div id="infoModal" class="modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-labelledby="infoTitle">
+      <h3 id="infoTitle">Hinweis</h3>
+      <p id="infoMessage">-</p>
+      <div class="modal-actions">
+        <button id="infoOk" class="btn-primary">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-left"><span class="footer-brand">📝 To-Do Liste</span></div>
+      <div class="footer-center"><span class="footer-copy">©<span id="year"></span> ClearFocus Solutions | Privacy Policy | Impressum</span></div>
+      <nav class="footer-links" aria-label="Fußzeilenlinks">
+        <a href="#" id="openAccessibility">Zugänglichkeit</a>
+        <a href="#" id="scrollTop">Nach oben ↑</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="email-config.js"></script>
+  <script src="auth.js"></script>
+  </body>
+  </html>
