@@ -8,7 +8,7 @@ const request = require('supertest');
 // Ensure test mode for stream transport
 process.env.NODE_ENV = 'test';
 
-const { app } = require('..\\server');
+const { app } = require('../server');
 
 let server;
 

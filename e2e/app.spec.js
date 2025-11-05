@@ -244,12 +244,12 @@ test.describe('Accessibility', () => {
     // Click dark mode
     await page.click('button[data-mode="dark"]');
     
-    // Body should have dark-mode class
-    await expect(page.locator('body')).toHaveClass(/dark-mode/);
+    // Body should have 'dark' class (not 'dark-mode')
+    await expect(page.locator('body')).toHaveClass(/\bdark\b/);
     
     // Should persist after reload
     await page.reload();
-    await expect(page.locator('body')).toHaveClass(/dark-mode/);
+    await expect(page.locator('body')).toHaveClass(/\bdark\b/);
   });
 
   test('should toggle high-contrast mode', async ({ page }) => {
