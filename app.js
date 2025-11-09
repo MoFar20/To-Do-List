@@ -466,35 +466,142 @@ class TodoApp {
             }
 
             const doc = new jsPDF();
-            doc.setFontSize(14);
-            doc.text('Aufgabenliste', 14, 18);
-            doc.setFontSize(11);
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
+            
+            // Header with title and date
+            doc.setFillColor(41, 128, 185); // Blue header background
+            doc.rect(0, 0, pageWidth, 35, 'F');
+            
+            doc.setTextColor(255, 255, 255); // White text
+            doc.setFontSize(22);
+            doc.setFont(undefined, 'bold');
+            doc.text('Aufgabenliste', pageWidth / 2, 15, { align: 'center' });
+            
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            const currentDate = new Date().toLocaleDateString('de-DE', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            doc.text(`Erstellt am: ${currentDate}`, pageWidth / 2, 25, { align: 'center' });
+            
+            // Summary statistics
+            const totalTasks = this.todos.length;
+            const completedTasks = this.todos.filter(t => t.done).length;
+            const pendingTasks = totalTasks - completedTasks;
+            doc.text(`Gesamt: ${totalTasks} | Erledigt: ${completedTasks} | Offen: ${pendingTasks}`, pageWidth / 2, 30, { align: 'center' });
 
-            const marginLeft = 14;
-            let y = 30;
-            const lineHeight = 8;
+            // Reset text color for content
+            doc.setTextColor(0, 0, 0);
+            
+            const marginLeft = 15;
+            const marginRight = 15;
+            const contentWidth = pageWidth - marginLeft - marginRight;
+            let y = 45;
+            const lineHeight = 6;
+
+            // Priority colors
+            const priorityColors = {
+                'Hoch': [231, 76, 60],      // Red
+                'Mittel': [241, 196, 15],   // Yellow
+                'Niedrig': [46, 204, 113]   // Green
+            };
 
             this.todos.forEach((t, idx) => {
-                const status = t.done ? '[x]' : '[ ]';
-                const title = `${idx + 1}. ${status} ${t.title} (${t.priority})`;
-                doc.text(title, marginLeft, y);
-                y += lineHeight;
-                if (t.desc) {
-                    // wrap description if too long
-                    const lines = doc.splitTextToSize(t.desc, 180);
-                    doc.text(lines, marginLeft + 6, y);
-                    y += lines.length * lineHeight;
-                }
-                if (t.category) {
-                    doc.text(`Kategorie: ${t.category}`, marginLeft + 6, y);
-                    y += lineHeight;
-                }
-
-                if (y > 270) {
+                // Check if we need a new page
+                if (y > pageHeight - 40) {
                     doc.addPage();
                     y = 20;
                 }
+
+                // Task number and checkbox
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'bold');
+                const taskNumber = `${idx + 1}.`;
+                doc.text(taskNumber, marginLeft, y);
+
+                // Draw checkbox (avoid unsupported emoji causing '&&')
+                const boxSize = 4;
+                const boxX = marginLeft + 8;
+                const boxY = y - 3; // align to baseline
+                doc.setDrawColor(120, 120, 120);
+                doc.roundedRect(boxX, boxY, boxSize, boxSize, 0.8, 0.8);
+                // If done, draw a check mark
+                if (t.done) {
+                    doc.setDrawColor(33, 150, 83);
+                    doc.setLineWidth(0.8);
+                    doc.line(boxX + 0.7, boxY + 2, boxX + 1.8, boxY + 3);
+                    doc.line(boxX + 1.8, boxY + 3, boxX + 3.3, boxY + 0.9);
+                    // reset line style
+                    doc.setLineWidth(0.2);
+                    doc.setDrawColor(0, 0, 0);
+                }
+                
+                // Task title with strikethrough if done
+                if (t.done) {
+                    doc.setTextColor(150, 150, 150); // Gray for completed tasks
+                    doc.setFont(undefined, 'normal');
+                } else {
+                    doc.setTextColor(0, 0, 0);
+                }
+                
+                const titleLines = doc.splitTextToSize(t.title, contentWidth - 40);
+                doc.text(titleLines, marginLeft + 15, y);
+                y += titleLines.length * lineHeight;
+
+                // Priority badge
+                doc.setTextColor(0, 0, 0);
+                doc.setFont(undefined, 'bold');
+                doc.setFontSize(9);
+                const priorityColor = priorityColors[t.priority] || [127, 140, 141];
+                doc.setFillColor(...priorityColor);
+                doc.roundedRect(marginLeft + 15, y - 3, 22, 5, 1, 1, 'F');
+                doc.setTextColor(255, 255, 255);
+                const priorityIcon = t.priority === 'Hoch' ? '🔴' : t.priority === 'Mittel' ? '🟡' : '🟢';
+                doc.text(`${t.priority}`, marginLeft + 17, y);
+                y += 7;
+
+                // Category tag
+                if (t.category) {
+                    doc.setTextColor(100, 100, 100);
+                    doc.setFont(undefined, 'italic');
+                    doc.setFontSize(9);
+                    // Avoid emoji icons in PDF (some fonts render garbled). Use plain label instead.
+                    doc.text(`Kategorie: ${t.category}`, marginLeft + 15, y);
+                    y += 5;
+                }
+
+                // Description with light background
+                if (t.desc) {
+                    doc.setTextColor(60, 60, 60);
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(9);
+                    const descLines = doc.splitTextToSize(t.desc, contentWidth - 25);
+                    
+                    // Light gray background for description
+                    const descHeight = descLines.length * lineHeight + 2;
+                    doc.setFillColor(245, 245, 245);
+                    doc.roundedRect(marginLeft + 15, y - 3, contentWidth - 20, descHeight, 1, 1, 'F');
+                    
+                    doc.text(descLines, marginLeft + 18, y);
+                    y += descLines.length * lineHeight + 2;
+                }
+
+                // Separator line
+                doc.setDrawColor(200, 200, 200);
+                doc.setLineWidth(0.3);
+                doc.line(marginLeft, y + 2, pageWidth - marginRight, y + 2);
+                y += 8;
             });
+
+            // Footer on last page
+            doc.setFontSize(8);
+            doc.setTextColor(150, 150, 150);
+            doc.setFont(undefined, 'italic');
+            const footerText = `Generiert mit To-Do Liste App • ${new Date().toLocaleTimeString('de-DE')}`;
+            doc.text(footerText, pageWidth / 2, pageHeight - 10, { align: 'center' });
 
             doc.save('aufgaben.pdf');
         } catch (err) {

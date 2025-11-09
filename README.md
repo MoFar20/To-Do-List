@@ -41,6 +41,62 @@ It's designed for quick local use and easy showcasing. A minimal Node.js server 
 
 ---
 
+## Screenshots
+
+### Authentication & Login
+
+*Clean authentication interface with register, login, and password reset options*
+![Login Screen](Screenshots/Login.png)
+
+
+### Task Management
+
+*Main task interface with priorities, categories, and drag-and-drop functionality*
+![Main Task Manager](Screenshots/Main_Task_Manager.png)
+
+
+### Password Reset Flow
+
+*Email-based verification code entry for secure password reset*
+![Password Reset](Screenshots/Reset_Password1.png)
+
+
+### Accessibility Modes
+
+*Application has different built-in filters to accommodate people with special needs*
+![Modes](Screenshots/Modes.png)
+
+*Built-in Red-Green Blindness filter*
+![Red-Green Blindness](Screenshots/Red_Green_Blindness.png)
+
+*Built-in Blue-Green Blindness filter*
+![Blue-Green Blindness](Screenshots/Blue_Green_Blindness.png)
+
+*Built-in Green Blindness filter*
+![Green Blindness](Screenshots/Green_Blindness_mode.png)
+
+*Built-in High contrast filter*
+![High Contrast](Screenshots/High_contrast_mode.png)
+
+
+### User Dashboard
+*User profile with registration details and task statistics*
+![User Info](Screenshots/User_Information.png)
+
+
+### PDF Export
+<figcaption><em>Export all tasks to PDF with one click</em></figcaption>
+<figure style="text-align:center;">
+	<img src="Screenshots/PDF_EXPORT2.png" alt="Export button and PDF export action" style="max-width:100%;height:auto;display:inline-block;" />
+</figure>
+
+<figcaption><em>Exported PDF including table of To-Dos</em></figcaption>
+<figure style="text-align:center;">
+	<img src="Screenshots/PDF_Export.png" alt="Exported PDF with table of To-Dos" style="max-width:100%;height:auto;display:inline-block;" />
+</figure>
+
+---
+
 ## Features
 
 - Authentication
@@ -51,6 +107,7 @@ It's designed for quick local use and easy showcasing. A minimal Node.js server 
 	- Create, edit, delete tasks
 	- Priorities (low, medium, high) and categories
 	- Search and filter tasks; drag‑and‑drop reordering
+	- Export all tasks to PDF with one click (jsPDF)
 - UX & Modals
 	- Custom, reusable modals for confirm, info, and code entry
 	- Dedicated user‑info popup (name, email, registration date, stats)
@@ -67,7 +124,7 @@ It's designed for quick local use and easy showcasing. A minimal Node.js server 
 
 ## Tech Stack
 
-- Frontend: HTML5, CSS3, Vanilla JavaScript
+- Frontend: HTML5, CSS3, Vanilla JavaScript, SortableJS (drag-drop), jsPDF (export)
 - Backend (email only): Node.js, Express 5, Nodemailer, dotenv, CORS
 - Storage: Browser localStorage (users, tasks, categories)
 
