@@ -29,7 +29,7 @@ It's designed for quick local use and easy showcasing. A minimal Node.js server 
 
 ---
 
-## Why this project (for recruiters)
+## Project in Words
 
 - **Thoughtful UX:** custom modals, consistent styling, responsive layout
 - **Security‑aware:** hashed passwords, safe email fallback, blocked password reuse
