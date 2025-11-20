@@ -10,6 +10,14 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+// Serve static files (HTML, CSS, JS) from the current directory
+app.use(express.static(__dirname));
+
+// Handle the root URL request (serve the HTML file)
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 // Create email transporter
 let transporter;
 if (process.env.NODE_ENV === 'test') {
@@ -221,8 +229,8 @@ if (require.main === module) {
     console.log(`
 ╔════════════════════════════════════════════╗
 ║   🚀 Email Server Running                  ║
-║   📧 Port: ${PORT}                           ║
-║   🌐 http://localhost:${PORT}                ║
+║   📧 Port: ${PORT}                         ║
+║   🌐 http://localhost:${PORT}              ║
 ╚════════════════════════════════════════════╝
     `);
   });
