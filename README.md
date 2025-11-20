@@ -1,10 +1,8 @@
 <div align="center">
 
 # 📝 To‑Do Liste 
-### 🚀 Live Demo: [Click here to view the App](https://YOUR-RENDER-LINK-HERE.com)
+### 🚀 Live Demo: [Click here to view the App](https://YOUR-RENDER-LINK-HERE.com) [![Live Demo](https://img.shields.io/badge/demo-online-green.svg)](https://YOUR-RENDER-LINK-HERE.com)
 Simple, fast, and accessible task manager with a secure password‑reset flow and a tiny Node.js email backend
-
-[![Live Demo](https://img.shields.io/badge/demo-online-green.svg)](https://YOUR-RENDER-LINK-HERE.com)
 <br/>
 
 ![Made with](https://img.shields.io/badge/made%20with-HTML5%20%7C%20CSS3%20%7C%20JavaScript-blue)
