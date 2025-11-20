@@ -9,8 +9,8 @@ Simple, fast, and accessible task manager with a secure password‑reset flow an
 ![Tests](https://img.shields.io/badge/tests-passing-brightgreen)
 ![License](https://img.shields.io/badge/license-ISC-lightgrey)
 
-### 🚀 Live Demo: [Click here to view the App](https://YOUR-RENDER-LINK-HERE.com)
-[![Live Demo](https://img.shields.io/badge/demo-online-green.svg)](https://YOUR-RENDER-LINK-HERE.com)
+### 🚀 Live Demo: [Click here to view the App](https://to-do-list-dyx4.onrender.com)
+[![Live Demo](https://img.shields.io/badge/demo-online-green.svg)](https://to-do-list-dyx4.onrender.com)
 
 </div>
 
